@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+  "name": "Sidebar Look Up",
+  "version": "0.0.1",
+  "description": "Look up selected text in sidebar",
+  "background": {
+    "scripts": [
+      "src/background/init.js"
+    ]
+  },
+  "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "menus",
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "tabs"
+  ],
+  "sidebar_action": {
+    "default_title": "Look Up",
+    "default_panel": "src/sidebar/sidebar.html"
+  },
+  "content_scripts": [
+      {
+          "matches": ["*://*/*"],
+          "js": ["src/content/content.js"]
+      }
+  ],
+  "commands": {
+    "_execute_sidebar_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U"
+      }
+    }
+  }
+}
