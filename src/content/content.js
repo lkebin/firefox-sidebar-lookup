@@ -4,3 +4,4 @@ document.addEventListener('selectionchange', function(e) {
         browser.runtime.sendMessage({selectText: text})
     }
 })
+

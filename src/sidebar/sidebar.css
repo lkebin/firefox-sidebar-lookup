@@ -1,23 +1,43 @@
-.lookup-sidebar {
-    /* box-sizing: border-box; */
-    right: 0 !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    width: 100%;
-    height: 100%;
-    /* overflow: visible; */
-    /* /1* padding-bottom: 30px; *1/ */
-    /* /1* padding-top: 64px; *1/ */
-    position: fixed;
-    /* z-index: 1000000001; */
-
-    /* transform: none; */
-    /* transition: transform .2s ease; */
-    /* left: 0 !important; */
+html,body {
+    height:100%;
+    padding:0;
+    margin:0;
 }
 
-.lookup-sidebar iframe {
+.lookup-sidebar {
     height: 100%;
     width: 100%;
-    border: 1px solid #DDD;
+    padding: 0;
+    margin: 0;
+}
+
+.lookup-sidebar .content {
+    width: 100%;
+    display: block;
+    height: -moz-calc(100% - 20px);
+    height: -webkit-calc(100% - 20px);
+    height: calc(100% - 20px);
+}
+
+.lookup-sidebar .content iframe {
+    height: 100%;
+    width: 100%;
+    border: none;
+}
+
+.lookup-sidebar .actions {
+    background: white;
+    position: fixed;
+    bottom: 0 !important;
+    right: 0 !important;
+
+    height: 20px;
+    width: 100%;
+}
+
+.lookup-sidebar .actions .source-list select[name="source"] {
+    width: 100%;
+    height: 20px;
+
+    display:block;
 }
