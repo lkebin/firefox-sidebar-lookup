@@ -1,5 +1,6 @@
 const container = document.querySelector('.lookup-sidebar iframe')
 const source = document.querySelector('.lookup-sidebar select[name="source"]')
+const updateOnSelectionChange = document.querySelector('.lookup-sidebar input[name="updateOnSelectionChange"]')
 const sourceMap = [
     {key: 'google-translate-cn', name: 'Google Translate (China)', url: 'https://translate.google.cn/?sl=auto&tl=zh-CN'},
     {key: 'google-translate', name: 'Google Translate (Global)', url: 'https://translate.google.com/?sl=auto'},
@@ -11,7 +12,15 @@ function lookup(text) {
 }
 
 function handleMessage(request)  {
-    lookup(request.selectText)
+    if (request.event == "selectionchange") {
+        browser.storage.local.get('updateOnSelectionChange').then((data) => {
+            if (data.updateOnSelectionChange) {
+                lookup(request.selectText)
+            }
+        })
+    } else {
+        lookup(request.selectText)
+    }
 }
 
 container.addEventListener('load', function() {
@@ -22,6 +31,14 @@ container.addEventListener('load', function() {
     }).catch((err) => {
         console.log(err)
     })
+})
+
+updateOnSelectionChange.addEventListener('change', function(e) {
+    if (e.target.checked) {
+        browser.storage.local.set({'updateOnSelectionChange': true})
+    } else {
+        browser.storage.local.set({'updateOnSelectionChange': false})
+    }
 })
 
 browser.runtime.onMessage.addListener(handleMessage)
@@ -49,6 +66,16 @@ browser.storage.local.get('source').then((result) => {
     }
 
     source.dispatchEvent(new Event('change'))
+})
+
+browser.storage.local.get('updateOnSelectionChange').then((result) => {
+    if (result.hasOwnProperty('updateOnSelectionChange')) {
+        updateOnSelectionChange.checked = result.updateOnSelectionChange
+    } else {
+        // default to checked
+        updateOnSelectionChange.checked = true
+    }
+    updateOnSelectionChange.dispatchEvent(new Event('change'))
 })
 
 window.addEventListener('unload', function() {

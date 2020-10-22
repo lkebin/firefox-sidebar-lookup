@@ -51,6 +51,7 @@ browser.menus.onClicked.addListener(function(info, tab) {
     if (text.trim() != '') {
         browser.storage.local.set({selectText: text})
         browser.sidebarAction.open()
+        browser.runtime.sendMessage({selectText: text})
     }
 })
 

@@ -1,30 +1,26 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="utf-8" http-equiv="encoding">
-    <link rel="stylesheet" href="sidebar.css"/>
-  </head>
+    <head>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <link rel="stylesheet" href="sidebar.css"/>
+    </head>
 
-<body>
-    <div class="lookup-sidebar">
-        <div class="content">
-            <iframe></iframe>
-        </div>
-        <div class="actions">
-            <div class="source-list">
-                <select name="source">
-                    <!-- <option value="google-translate-cn">Google Translate (China)</option> -->
-                    <!-- <option value="google-translate">Google Translate (Global)</option> -->
-                </select>
+    <body>
+        <div class="lookup-sidebar">
+            <div class="content">
+                <iframe></iframe>
             </div>
-            <!-- <div class="source-actions"> -->
-            <!--     <button type="button" class="source-add">Add Source</button> -->
-            <!-- </div> -->
+            <div class="actions">
+                <select name="source"></select>
+                <label>
+                    <input type="checkbox" name="updateOnSelectionChange">
+                    Update on selection change
+                </label>
+            </div>
         </div>
-    </div>
-    <script src="sidebar.js"></script>
-</body>
+        <script src="sidebar.js"></script>
+    </body>
 
 </html>
