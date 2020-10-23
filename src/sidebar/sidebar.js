@@ -2,13 +2,30 @@ const container = document.querySelector('.lookup-sidebar iframe')
 const source = document.querySelector('.lookup-sidebar select[name="source"]')
 const updateOnSelectionChange = document.querySelector('.lookup-sidebar input[name="updateOnSelectionChange"]')
 const sourceMap = [
-    {key: 'google-translate-cn', name: 'Google Translate (China)', url: 'https://translate.google.cn/?sl=auto&tl=zh-CN'},
-    {key: 'google-translate', name: 'Google Translate (Global)', url: 'https://translate.google.com/?sl=auto'},
+    {key: 'google-translate-cn', name: 'Google Translate (China)', url: 'https://translate.google.cn/?sl=auto&tl=zh-CN&text={word}', jsUpdate: true, homePage: 'https://translate.google.cn'},
+    {key: 'google-translate', name: 'Google Translate (Global)', url: 'https://translate.google.com/?sl=auto&text={word}', jsUpdate: true, homePage: 'https://translate.google.com'},
+    {key: 'zdic', name: '汉典', url: 'https://www.zdic.net/hans/{word}', jsUpdate: false, homePage: 'https://www.zdic.net'},
+    {key: 'qxk', name: '全息字典', url: 'https://qxk.bnu.edu.cn/phone_page/#/singleDetails/d5b3c019-91c5-4d33-b7fb-8a340e0f2c9e/22d3af76-1ffe-46da-8c28-40e7dfe6b8d2/{word}', jsUpdate: false, homePage: 'https://qxk.bnu.edu.cn/phone_page/#/'},
 ];
 
 function lookup(text) {
-    document.querySelector('iframe').contentWindow.postMessage({selectText: text}, "*")
-    browser.storage.local.set({selectText: text})
+    browser.storage.local.get('source').then(result => {
+        let s
+        sourceMap.forEach(function(v) {
+            if (v.key == result.source) {
+                s= v
+            }
+        })
+        return s
+    }).then(source => {
+        if (source.jsUpdate) {
+            container.contentWindow.postMessage({selectText: text}, "*")
+        } else {
+            container.setAttribute('src', source.url.replace('{word}', text))
+        }
+
+        browser.storage.local.set({selectText: text})
+    })
 }
 
 function handleMessage(request)  {
@@ -23,15 +40,15 @@ function handleMessage(request)  {
     }
 }
 
-container.addEventListener('load', function() {
-    browser.storage.local.get("selectText").then((result) => {
+async function getSelectText() {
+    return browser.storage.local.get("selectText").then((result) => {
         if (result.hasOwnProperty("selectText")) {
-            lookup(result.selectText)
+            return result.selectText
         }
     }).catch((err) => {
         console.log(err)
     })
-})
+}
 
 updateOnSelectionChange.addEventListener('change', function(e) {
     if (e.target.checked) {
@@ -46,11 +63,19 @@ browser.runtime.onMessage.addListener(handleMessage)
 source.addEventListener('change', async function(e) {
     browser.storage.local.set({source: e.target.value})
 
+    let source 
     sourceMap.forEach(function(v) {
         if (v.key == e.target.value) {
-            container.setAttribute('src', v.url)
+            source = v
         }
     })
+
+    const text = await getSelectText()
+    if (text) {
+        container.setAttribute('src', source.url.replace('{word}', text))
+    } else {
+        container.setAttribute('src', source.homePage)
+    }
 })
 
 browser.storage.local.get('source').then((result) => {

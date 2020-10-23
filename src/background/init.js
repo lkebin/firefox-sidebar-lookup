@@ -11,6 +11,7 @@ browser.webRequest.onHeadersReceived.addListener(
         urls: [
             '*://translate.google.com/*',
             '*://translate.google.cn/*',
+            '*://www.zdic.net/*',
         ],
         types: ['sub_frame']
     }, 
