@@ -2,10 +2,8 @@ const container = document.querySelector('.lookup-sidebar iframe')
 const source = document.querySelector('.lookup-sidebar select[name="source"]')
 const updateOnSelectionChange = document.querySelector('.lookup-sidebar input[name="updateOnSelectionChange"]')
 const sourceMap = [
-    {key: 'google-translate-cn', name: 'Google Translate (China)', url: 'https://translate.google.cn/?sl=auto&tl=zh-CN&text={word}', jsUpdate: true, homePage: 'https://translate.google.cn'},
-    {key: 'google-translate', name: 'Google Translate (Global)', url: 'https://translate.google.com/?sl=auto&text={word}', jsUpdate: true, homePage: 'https://translate.google.com'},
+    {key: 'google-translate', name: 'Google Translate', url: 'https://translate.google.com/?sl=auto&text={word}', jsUpdate: true, homePage: 'https://translate.google.com'},
     {key: 'zdic', name: '汉典', url: 'https://www.zdic.net/hans/{word}', jsUpdate: false, homePage: 'https://www.zdic.net'},
-    {key: 'qxk', name: '全息字典', url: 'https://qxk.bnu.edu.cn/phone_page/#/singleDetails/d5b3c019-91c5-4d33-b7fb-8a340e0f2c9e/22d3af76-1ffe-46da-8c28-40e7dfe6b8d2/{word}', jsUpdate: false, homePage: 'https://qxk.bnu.edu.cn/phone_page/#/'},
 ];
 
 function lookup(text) {
@@ -63,7 +61,7 @@ browser.runtime.onMessage.addListener(handleMessage)
 source.addEventListener('change', async function(e) {
     browser.storage.local.set({source: e.target.value})
 
-    let source 
+    let source
     sourceMap.forEach(function(v) {
         if (v.key == e.target.value) {
             source = v
@@ -81,12 +79,12 @@ source.addEventListener('change', async function(e) {
 browser.storage.local.get('source').then((result) => {
     sourceMap.forEach(function(v) {
         defaultSelect = (v.key == 'google-translate-cn')
-        source.appendChild(new Option(v.name, v.key, defaultSelect, false))    
+        source.appendChild(new Option(v.name, v.key, defaultSelect, false))
     })
 
     for(var i = 0; i < source.options.length; i++) {
         if (result.source == source.options[i].value && source.options[i].selected != 'selected') {
-            source.options[i].selected = 'selected'            
+            source.options[i].selected = 'selected'
         }
     }
 
