@@ -2,7 +2,7 @@ const container = document.querySelector('.lookup-sidebar iframe')
 const source = document.querySelector('.lookup-sidebar select[name="source"]')
 const updateOnSelectionChange = document.querySelector('.lookup-sidebar input[name="updateOnSelectionChange"]')
 const sourceMap = [
-    {key: 'google-translate', name: 'Google Translate', url: 'https://translate.google.com/?sl=auto&text={word}', jsUpdate: true, homePage: 'https://translate.google.com'},
+    {key: 'google-translate', name: 'Google Translate', url: 'https://translate.google.com/?sl=auto&tl=zh-CN&text={word}', jsUpdate: true, homePage: 'https://translate.google.com'},
     {key: 'zdic', name: '汉典', url: 'https://www.zdic.net/hans/{word}', jsUpdate: false, homePage: 'https://www.zdic.net'},
 ];
 

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "author": "Kebin Liu",
   "name": "Look Up in Sidebar",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "homepage_url": "https://github.com/lkebin/firefox-sidebar-lookup",
   "description": "Look up selected text in sidebar",
   "background": {
